@@ -1,0 +1,130 @@
+absl-py==0.9.0
+appnope==0.1.0
+argon2-cffi @ file:///opt/concourse/worker/volumes/live/c4db8eed-7de0-4d68-400c-2ea7e21d3750/volume/argon2-cffi_1596828478065/work
+astor==0.8.1
+attrs==19.3.0
+Automat==0.8.0
+backcall==0.1.0
+bcrypt @ file:///opt/concourse/worker/volumes/live/25966884-1a49-4448-62e7-44563eba29d2/volume/bcrypt_1597936171818/work
+beautifulsoup4==4.9.1
+bleach==3.1.5
+certifi==2020.6.20
+cffi @ file:///opt/concourse/worker/volumes/live/0df07f09-9875-42dd-4a5c-3f900d1fbce2/volume/cffi_1598370762311/work
+chardet==3.0.4
+constantly==15.1.0
+cryptography @ file:///opt/concourse/worker/volumes/live/823033e5-92f5-43de-539e-bdc7bc36c81a/volume/cryptography_1598892026131/work
+cssselect==1.1.0
+cycler==0.10.0
+decorator==4.4.2
+defusedxml==0.6.0
+entrypoints==0.3
+gast==0.2.2
+google-pasta==0.2.0
+grpcio @ file:///opt/concourse/worker/volumes/live/b5e6cc9f-d048-411b-5e0a-34cf579ea9aa/volume/grpcio_1597424489035/work
+h5py @ file:///opt/concourse/worker/volumes/live/98bee3fd-2687-4017-5421-d742d1f18c35/volume/h5py_1593454156895/work
+html5lib==1.1
+html5print==0.1.2
+hyperlink==19.0.0
+idna @ file:///tmp/build/80754af9/idna_1593446292537/work
+importlib-metadata==1.6.0
+incremental==17.5.0
+iniconfig @ file:///tmp/build/80754af9/iniconfig_1596827328212/work
+ipykernel==5.2.1
+ipython==7.14.0
+ipython-genutils==0.2.0
+ipywidgets==7.5.1
+itemadapter @ file:///tmp/build/80754af9/itemadapter_1598654773526/work
+itemloaders @ file:///tmp/build/80754af9/itemloaders_1599702791960/work
+jedi==0.17.0
+Jinja2==2.11.2
+jmespath @ file:///tmp/build/80754af9/jmespath_1594304593830/work
+joblib @ file:///tmp/build/80754af9/joblib_1594236160679/work
+jsonschema==3.2.0
+jupyter==1.0.0
+jupyter-client==6.1.3
+jupyter-console==6.1.0
+jupyter-core==4.6.3
+Keras==2.3.1
+Keras-Applications @ file:///tmp/build/80754af9/keras-applications_1594366238411/work
+Keras-Preprocessing==1.1.0
+kiwisolver==1.2.0
+lxml @ file:///opt/concourse/worker/volumes/live/0dfefafa-9e58-455e-535c-75e73a127cfd/volume/lxml_1594826856790/work
+Markdown @ file:///opt/concourse/worker/volumes/live/78511e82-5679-42c1-42a8-b983fac7e7ab/volume/markdown_1597433265500/work
+MarkupSafe==1.1.1
+matplotlib==3.2.1
+mistune==0.8.4
+mkl-fft==1.1.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+more-itertools @ file:///tmp/build/80754af9/more-itertools_1598884071673/work
+nbconvert==5.6.1
+nbformat==5.0.6
+notebook==6.0.3
+numpy @ file:///opt/concourse/worker/volumes/live/40d975a3-7e82-44c8-53df-feccdbce8b96/volume/numpy_and_numpy_base_1596233859108/work
+olefile==0.46
+opt-einsum==3.1.0
+packaging==20.3
+pandas @ file:///opt/concourse/worker/volumes/live/993437e5-6177-49a4-48b9-0912ecc50f00/volume/pandas_1598371475214/work
+pandocfilters==1.4.2
+parsel==1.5.2
+parso==0.7.0
+pexpect==4.8.0
+pickleshare==0.7.5
+Pillow @ file:///opt/concourse/worker/volumes/live/05b3bc99-cf9f-44f2-42cf-267ed3a55922/volume/pillow_1594307311725/work
+pluggy==0.13.1
+ply==3.4
+prometheus-client==0.7.1
+prompt-toolkit==3.0.5
+Protego @ file:///tmp/build/80754af9/protego_1598657180827/work
+protobuf==3.12.4
+ptyprocess==0.6.0
+py @ file:///tmp/build/80754af9/py_1593446248552/work
+pyasn1==0.4.8
+pyasn1-modules==0.2.7
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+PyDispatcher==2.0.5
+Pygments==2.6.1
+PyHamcrest @ file:///tmp/build/80754af9/pyhamcrest_1594390921726/work
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1594392929924/work
+pyparsing==2.4.7
+pyrsistent==0.16.0
+pytest==6.0.1
+pytest-runner==5.2
+python-dateutil==2.8.1
+pytz==2020.1
+PyYAML==5.3.1
+pyzmq==19.0.1
+qtconsole==4.7.3
+QtPy==1.9.0
+queuelib==1.5.0
+requests==2.24.0
+scikit-learn @ file:///opt/concourse/worker/volumes/live/2dacdc11-21e7-44f5-57b4-6b8eb6ceb626/volume/scikit-learn_1598376924598/work
+scipy @ file:///opt/concourse/worker/volumes/live/9698578f-91da-4d5f-6fce-b26b1f42eb5a/volume/scipy_1597686637948/work
+Scrapy @ file:///opt/concourse/worker/volumes/live/d83cb7cd-17b5-40a8-5c48-f3c480bcc460/volume/scrapy_1598667894343/work
+seaborn==0.10.1
+Send2Trash==1.5.0
+service-identity==18.1.0
+six==1.15.0
+slimit==0.8.1
+soupsieve==2.0.1
+tensorboard==2.0.0
+tensorflow==2.0.0
+tensorflow-estimator==2.0.0
+termcolor==1.1.0
+terminado==0.8.3
+testpath==0.4.4
+threadpoolctl @ file:///tmp/tmp9twdgx9k/threadpoolctl-2.1.0-py3-none-any.whl
+tinycss2==1.0.2
+toml @ file:///tmp/build/80754af9/toml_1592853716807/work
+tornado==6.0.4
+traitlets==4.3.3
+Twisted==20.3.0
+urllib3==1.25.10
+w3lib==1.21.0
+wcwidth==0.1.9
+webencodings==0.5.1
+Werkzeug==1.0.1
+widgetsnbextension==3.5.1
+wrapt==1.12.1
+zipp==3.1.0
+zope.interface @ file:///opt/concourse/worker/volumes/live/41faf7df-11ec-40ce-5d80-a5a7f861af0c/volume/zope.interface_1598624148874/work
