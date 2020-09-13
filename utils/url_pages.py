@@ -1,4 +1,4 @@
-from urllib import request, response, error
+from urllib import request, response, error, robotparser
 from .logger import Logger
 
 class URLPages:

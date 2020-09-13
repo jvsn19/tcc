@@ -1,16 +1,30 @@
-from .logger import Logger
-from .url_pages import URLPages
-from bs4 import BeautifulSoup as BS
 import re
+from urllib.parse import urlparse
 
-class WikipediaTableParser:
+from bs4 import BeautifulSoup as BS
+
+from ..file_handler import FileHandler
+
+class TCCParser:
     def __init__(self):
-        self.ROOT_URL = 'https://en.wikipedia.org'
-        self.parser = 'html5lib'
-        self.urls = set()
+        self._url = None
+        self._parser = 'html5lib'
 
-    def set_parser(parser: str):
-        self.parser = parser
+    @property
+    def url(self):
+        return self._url
+
+    @property
+    def parser(self):
+        return self._parser
+
+    @url.setter
+    def root_url(self, new_url):
+        self._url = new_url
+
+    @parser.setter
+    def parser(self, new_parser):
+        self._parser = new_parser
 
     def _wikipedia_table_parser(self, soup_obj):
         '''
@@ -38,7 +52,7 @@ class WikipediaTableParser:
 
                 # Match possibilities
                 if re.match(r'^/wiki/.*', href):
-                    references_url.add(f'{self.ROOT_URL}{href}')
+                    references_url.add(self.build_url(href))
                 elif re.match(r'^#(cite|CITE).*', href):
                     new_url = f'{page_url}{href}'
                 elif re.match(r'^//.*', href):
@@ -48,16 +62,26 @@ class WikipediaTableParser:
 
         return references_url
 
-    def add_url(self, urls):
-        self.urls.update(urls)
 
-    def run(self):
+    def save_pages(self, page_references):
+        for url in page_references:
+            file_name = url.split('/')[~0]
+            FileHandler.write_tables_csv(file_name, './csvs', page_references[url])
+
+    def build_url(self, path):
+        # https://en.wikipedia.org/wiki/Timeline_of_the_evolutionary_history_of_life
+        url_parse = urlparse(self._url)
+        base_url = f'https://{url_parse.netloc}'
+
+        return f'{base_url}{path}'
+
+    def run(self, html):
         page_references = dict()
 
-        for url in self.urls:
-            html = URLPages.get_html(url)
-            soup_obj = BS(html, self.parser)
-            page_references[url] = self._wikipedia_table_parser(soup_obj)
+        soup_obj = BS(html, self.parser)
+        page_references[self._url] = self._wikipedia_table_parser(soup_obj)
 
+        self.save_pages(page_references)
 
-        return page_references
+        # This parser doesn't want to read more urls inside this website
+        return set()
