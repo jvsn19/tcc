@@ -2,8 +2,6 @@ from datetime import datetime
 from enum import Enum
 import os
 
-LOG_PATH = './logs'
-
 class LogTypes(Enum):
     INFO = 0
     WARNING = 1
@@ -17,11 +15,9 @@ class Logger:
     '''
     class __LoggerSingleton:
         def __init__(self):
-            # Check if exists a log file
             if not os.path.exists(LOG_PATH) or not os.path.isfile(LOG_PATH):
                 self._create_log()
 
-             # Private Methods
         def _create_log(self):
             now = self._get_now()
 
@@ -39,12 +35,26 @@ class Logger:
 
     _instance = None
 
-    @property
-    def instance(self):
-        if self._instance is None:
-            self._instance = self.__LoggerSingleton()
+    def __init__(self):
+        print("oi")
+        self._log_path = None
+        self._log_level = None
 
-        return self._instance
+    @property
+    def log_path(self):
+        return self._log_path
+
+    @property
+    def log_level(self):
+        return self._log_level
+
+    @log_path.setter
+    def log_path(self, new_log_path):
+        self._log_path = new_log_path
+
+    @log_level.setter
+    def log_level(self, new_log_level):
+        self._log_level = new_log_level
 
     def _get_instance(self):
         if self._instance is None:

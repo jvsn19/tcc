@@ -1,12 +1,31 @@
 import os
 import sys
 import logging
+import yaml
 
-current_dir = os.getcwd()
+from utils.logger import Logger
 
-def create_log_folder():
+ROOT_DIR = os.getcwd()
+
+def configure_logger(log_level, log_path):
+    Logger.log_level = log_level
+    Logger.log_path = log_path
+
+    _create_log_folder()
+
+def _create_log_folder(log_path):
+    if not os.path.exists(log_path) or not os.path.isdir(log_path):
+        try:
+            os.mkdir(log_path)
+        except Exception as e:
+            logging.critical(f'Cannot create the new directory {log_path}', e.args)
+            return -1
+
+    return 0
+
+def main():
     '''
-    The default log path is {pwd}/logs
+    This class do the initial setup for the user
     '''
     python_version = sys.version_info
 
@@ -19,25 +38,6 @@ def create_log_folder():
 
         if answer == 'n':
             return 0
-
-    log_path = f'{current_dir}/logs'
-
-    if not os.path.exists(log_path) or not os.path.isdir(log_path):
-        try:
-            os.mkdir(log_path, 755)
-        except Exception as e:
-            logging.critical(f'Cannot create the new directory {log_path}', e.args)
-            return -1
-
-    return 0
-
-
-def main():
-    '''
-    This class do the initial setup for the user
-    '''
-    print(sys.version)
-    create_log_folder()
 
 if __name__ == '__main__':
     main()
