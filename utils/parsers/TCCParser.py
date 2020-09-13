@@ -65,11 +65,10 @@ class TCCParser:
 
     def save_pages(self, page_references):
         for url in page_references:
-            file_name = url.split('/')[~0]
+            file_name = url.split('/')[~0].strip()
             FileHandler.write_tables_csv(file_name, './csvs', page_references[url])
 
     def build_url(self, path):
-        # https://en.wikipedia.org/wiki/Timeline_of_the_evolutionary_history_of_life
         url_parse = urlparse(self._url)
         base_url = f'https://{url_parse.netloc}'
 
