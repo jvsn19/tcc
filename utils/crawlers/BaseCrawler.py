@@ -64,7 +64,7 @@ class BaseCrawler(ABC):
         '''
         while self.urls:
             url = self.urls.pop()
-            self._parser.root_url = url
+            self._parser.url = url
 
             if not self.robots_parser.can_fetch(self.useragent, url):
                 # robots.txt forbids us to parse this file

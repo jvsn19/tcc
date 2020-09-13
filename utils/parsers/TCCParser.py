@@ -4,28 +4,9 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup as BS
 
 from ..file_handler import FileHandler
+from .BaseParser import BaseParser
 
-class TCCParser:
-    def __init__(self):
-        self._url = None
-        self._parser = 'html5lib'
-
-    @property
-    def url(self):
-        return self._url
-
-    @property
-    def parser(self):
-        return self._parser
-
-    @url.setter
-    def root_url(self, new_url):
-        self._url = new_url
-
-    @parser.setter
-    def parser(self, new_parser):
-        self._parser = new_parser
-
+class TCCParser(BaseParser):
     def _wikipedia_table_parser(self, soup_obj):
         '''
         This is a custom parser to get all the tables from a wikipedia page.
@@ -69,7 +50,7 @@ class TCCParser:
             FileHandler.write_tables_csv(file_name, './csvs', page_references[url])
 
     def build_url(self, path):
-        url_parse = urlparse(self._url)
+        url_parse = urlparse(super().url)
         base_url = f'https://{url_parse.netloc}'
 
         return f'{base_url}{path}'
@@ -77,8 +58,8 @@ class TCCParser:
     def run(self, html):
         page_references = dict()
 
-        soup_obj = BS(html, self.parser)
-        page_references[self._url] = self._wikipedia_table_parser(soup_obj)
+        soup_obj = BS(html, super().parser)
+        page_references[super().url] = self._wikipedia_table_parser(soup_obj)
 
         self.save_pages(page_references)
 
