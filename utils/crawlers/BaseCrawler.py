@@ -71,7 +71,7 @@ class BaseCrawler(ABC):
                 continue
 
             try:
-                response = request.urlopen(url, timeout=2)
+                response = request.urlopen(url)
                 Logger.log_info(f'[{response.getcode()}] Request to {url} was successful.')
                 new_urls = self.parser.run(response)
 

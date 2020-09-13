@@ -6,7 +6,7 @@ from utils.crawlers import WikipediaCrawler
 from utils.parsers import TCCParser
 
 def main():
-    urls = CSVReader.get_urls_from_csv(CSV_PATH, limit= 5)
+    urls = CSVReader.get_urls_from_csv(CSV_PATH)
     tcc_parser = TCCParser()
     wikipedia_crawler = WikipediaCrawler(tcc_parser)
     wikipedia_crawler.add_urls(urls)

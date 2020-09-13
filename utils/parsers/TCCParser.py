@@ -1,4 +1,5 @@
 import re
+from urllib import request
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup as BS
@@ -46,7 +47,6 @@ class TCCParser:
                 href = href.get('href')
 
                 # Filter invalid urls
-                href = href.split('#')[0] # Get only the first url slice if the link is <url>#session
                 if re.match(invalid_urls_regex, href):
                     continue
 
@@ -54,7 +54,11 @@ class TCCParser:
                 if re.match(r'^/wiki/.*', href):
                     references_url.add(self.build_url(href))
                 elif re.match(r'^#(cite|CITE).*', href):
-                    new_url = f'{page_url}{href}'
+                    new_soup_obj = soup_obj.find('li', attrs={'id': href[1:]})
+                    if new_soup_obj:
+                        new_href_obj = new_soup_obj.find('a', attrs={'class': 'external text', 'rel': 'nofollow'})
+                        if new_href_obj:
+                            references_url.add(new_href_obj.get('href'))
                 elif re.match(r'^//.*', href):
                     references_url.add(f'https:{href}')
                 elif re.match(r'^https?.*', href):
