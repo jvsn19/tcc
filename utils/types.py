@@ -1,0 +1,1 @@
+from tiping import NewType
