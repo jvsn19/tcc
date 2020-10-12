@@ -14,7 +14,6 @@ class RedisClient:
         except redis.exceptions.ConnectionError as ex:
             return False
 
-
     def set(self, key, value, expiration = None) -> bool:
         self.redis.set(name = key, value= value)
 
