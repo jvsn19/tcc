@@ -1,6 +1,7 @@
 from abc import ABC
-from urllib import request, response, error, robotparser
+from urllib import request, response, error, robotparser, parse
 from time import sleep
+from re import split
 
 from ..logger import Logger
 
@@ -9,10 +10,9 @@ class BaseCrawler(ABC):
     Basic crawler implementation. A crawler is a bot that, given an url, downloads the html and,
     with a parser, get all the useful information from the webpage and continues to navigate throught
     the pages within the current one.
-    The crawler works with a set of urls (set was choosen because it's a good/basic way to avoid repeated url)
-    and a parser. Each url in this set will be downloaded and parsed by our parser. The parser decides what is
-    the desired information. At the end of the parser phase, the parser should return new urls to add to our crawler,
-    so it can move forward to new urls.
+    The crawler works with a set of urls and a parser. Each url in this set will be downloaded and parsed by our parser.
+    The parser decides what isthe desired information. At the end of the parser phase, the parser should return new urls
+    to add to our crawler, so it can move forward to new urls.
     params:
     - root_path: the root path from an url. For example: https://www.github.com
     - parser: the helper parser. The parser function is to, given an url, get all the useful information
@@ -51,6 +51,21 @@ class BaseCrawler(ABC):
         '''
         sleep(self.sleep_time)
 
+    def _fix_url(self, url):
+        '''
+        Some URLs are codified in ASCII and urllib doesn't know how to deal with these urls.
+        This method tries to fix the url using 'parse.quote'
+        '''
+        address = split(r'https?://', url)[~0]
+        return f'https://{parse.quote(address)}'
+
+    def _validate_url(self, url):
+        '''
+        Method to be implemented by the inherited classes. Is a validation where the user
+        can avoid parsing an url
+        '''
+        return False
+
     # public Methods
     def add_urls(self, urls):
         '''
@@ -66,23 +81,30 @@ class BaseCrawler(ABC):
             url = self.urls.pop()
             self._parser.root_url = url
 
-            if not self.robots_parser.can_fetch(self.useragent, url):
-                # robots.txt forbids us to parse this file
+            if not self.robots_parser.can_fetch(self.useragent, url) or self._validate_url(url):
+                # robots.txt forbids us to parse this file or this url should be ignored
                 continue
 
             try:
+                Logger.log_info(f'Start request to {url}.')
                 response = request.urlopen(url)
                 Logger.log_info(f'[{response.getcode()}] Request to {url} was successful.')
                 new_urls = self.parser.run(response)
 
+                # Add new urls to crawl
+                self.add_urls(new_urls)
+
+                if(len(self.urls) > 0):
+                    # If there is another url to get, wait 5 seconds
+                    self._sleep()
+
             except Exception as exception:
-                raise exception
+                Logger.log_error(f'Failed to get the {url}. Error:\n{exception}')
+                fixed_url = self._fix_url(url)
 
-            # Add new urls to crawl
-            self.add_urls(new_urls)
-
-            if(len(self.urls) > 0):
-                # If there is another url to get, wait 5 seconds
-                self._sleep()
+                # Try again with new url
+                if fixed_url != url:
+                    Logger.log_info(f'Trying again {url} -> {fixed_url}')
+                    self.add_urls(set(fixed_url))
 
         Logger.log_info(f'Crawler finished.')
