@@ -2,6 +2,7 @@ from abc import ABC
 from urllib import request, response, error, robotparser, parse
 from time import sleep
 from re import split
+from utils.redis_client import RedisClient
 
 from ..logger import Logger
 
@@ -27,6 +28,7 @@ class BaseCrawler(ABC):
         self.sleep_time = 5
         self.parser = parser
         self._configure_robots_parser()
+        self.redis = RedisClient()
 
     # Properties
     @property
@@ -81,12 +83,17 @@ class BaseCrawler(ABC):
             url = self.urls.pop()
             self._parser.root_url = url
 
-            if not self.robots_parser.can_fetch(self.useragent, url) or self._validate_url(url):
+            if not self.redis.ping():
+                Logger.log_error('Redis is not connected')
+                return
+
+            if not self.robots_parser.can_fetch(self.useragent, url) or self._validate_url(url) or self.redis.get(url) is not None:
                 # robots.txt forbids us to parse this file or this url should be ignored
                 continue
 
             try:
                 Logger.log_info(f'Start request to {url}.')
+                self.redis.set(url, 'parsed')
                 response = request.urlopen(url)
                 Logger.log_info(f'[{response.getcode()}] Request to {url} was successful.')
                 new_urls = self.parser.run(response)
