@@ -1,0 +1,7 @@
+.DS_Store
+*logs.txt
+csv_folder/
+__pycache__
+_main.py
+/csvs
+logs
