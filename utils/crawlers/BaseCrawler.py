@@ -87,19 +87,19 @@ class BaseCrawler(ABC):
                 Logger.log_error('Redis is not connected')
                 return
 
-            if not self.robots_parser.can_fetch(self.useragent, url) or self._validate_url(url) or self.redis.get(url) is not None:
+            if not self.robots_parser.can_fetch(self.useragent, url) or self._validate_url(url) or (self.redis.get(url) is not None and redis.get(url) == 'OK'):
                 # robots.txt forbids us to parse this file or this url should be ignored
                 continue
 
             try:
                 Logger.log_info(f'Start request to {url}.')
-                self.redis.set(url, 'parsed')
                 response = request.urlopen(url)
                 Logger.log_info(f'[{response.getcode()}] Request to {url} was successful.')
                 new_urls = self.parser.run(response)
 
                 # Add new urls to crawl
                 self.add_urls(new_urls)
+                self.redis.set(url, 'OK')
 
                 if(len(self.urls) > 0):
                     # If there is another url to get, wait 5 seconds
@@ -107,6 +107,7 @@ class BaseCrawler(ABC):
 
             except Exception as exception:
                 Logger.log_error(f'Failed to get the {url}. Error:\n{exception}')
+                self.redis.set(url, 'ERROR')
                 fixed_url = self._fix_url(url)
 
                 # Try again with new url
