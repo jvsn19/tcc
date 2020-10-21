@@ -36,6 +36,7 @@ After this you have your kafka server up and running. The basic Kafka usage is t
   |---|---|---|---|---|---|---|
 
 ### Redis
+Redis will work as a cache system where I add the urls that I crawled. There is two possible states: "OK" or "ERROR". If I try to crawl a url with "OK" status, the program should avoid and continue. If the status is "ERROR" or `None`, the program should try to crawl again.
 ``` bash
 # To start Redis, you need to initiate the redis-server. You can do it as a paralel process
 $ redis-server &
