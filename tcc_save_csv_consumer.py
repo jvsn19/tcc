@@ -35,6 +35,9 @@ def consume(kafka_topic: str) -> None:
             text = row.get('text')
             description = row.get('description')
             maintext = row.get('maintext')
+            if maintext:
+                maintext = maintext.replace('\n', '')
+                maintext.replace('\r', '')
             FileHandler.write_tables_csv(
                 'table_links',
                 'csvs/',
