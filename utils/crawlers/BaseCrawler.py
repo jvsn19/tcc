@@ -80,7 +80,7 @@ class BaseCrawler(ABC):
         Method to start crawler.
         '''
         while self.urls:
-            url = self.urls.pop()
+            id, url = self.urls.pop()
             self._parser.root_url = url
 
             if not self.redis.ping():
@@ -95,7 +95,7 @@ class BaseCrawler(ABC):
                 Logger.log_info(f'Start request to {url}.')
                 response = request.urlopen(url)
                 Logger.log_info(f'[{response.getcode()}] Request to {url} was successful.')
-                new_urls = self.parser.run(response)
+                new_urls = self.parser.run(id, response)
 
                 # Add new urls to crawl
                 self.add_urls(new_urls)

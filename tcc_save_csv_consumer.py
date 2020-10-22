@@ -1,6 +1,10 @@
-from kafka import KafkaConsumer
-from argparse import ArgumentParser
 import logging
+from argparse import ArgumentParser
+from json import loads
+
+from kafka import KafkaConsumer
+
+from utils.file_handler import FileHandler
 
 def setup_parser() -> None:
     parser = ArgumentParser(description='Kafka consumer that reads a topic that follows the \
@@ -19,16 +23,28 @@ def consume(kafka_topic: str) -> None:
     consumer = KafkaConsumer('quickstart-events',
         bootstrap_servers=['localhost:9092'],
         auto_offset_reset='earliest',
-        enable_auto_commit=True)
-
+        enable_auto_commit=True,
+        value_deserializer=lambda x: loads(x.decode('utf-8')))
+# {'url': 'https:', 'id': 10030, 'title': 'Edmund Burke', 'text': None, 'description': None}
     try:
         for event in consumer:
-            print(event)
+            row = event.value
+            id = row.get('id')
+            url = row.get('url')
+            title = row.get('title')
+            text = row.get('text')
+            description = row.get('description')
+            maintext = row.get('maintext')
+            FileHandler.write_tables_csv(
+                'table_links',
+                'csvs/',
+                f'{id}, {url}, {title}, {text}, {description}, {maintext}')
+
     except KeyboardInterrupt as e:
         stop_consumer(consumer)
 
 def stop_consumer(consumer: KafkaConsumer):
-    logging.info('Stopping consumer', consumer.)
+    logging.info('Stopping consumer')
 
     if consumer is not None:
         consumer.close()

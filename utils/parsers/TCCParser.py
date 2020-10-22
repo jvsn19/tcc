@@ -2,9 +2,10 @@ import re
 from urllib import request
 from urllib.parse import urlparse
 
+from newsplease import NewsPlease
 from bs4 import BeautifulSoup as BS
 
-from ..file_handler import FileHandler
+from ..kafka import KafkaProducer
 
 class TCCParser:
     def __init__(self):
@@ -67,10 +68,20 @@ class TCCParser:
         return references_url
 
 
-    def save_pages(self, page_references):
+    def save_pages(self, id, page_references):
+        # title, text, main text, description
         for url in page_references:
-            file_name = url.split('/')[~0].strip()
-            FileHandler.write_tables_csv(file_name, './csvs', page_references[url])
+            news_please_obj = NewsPlease.from_url(url)
+            KafkaProducer.send(
+                'quickstart-events',
+                {
+                    'url': url,
+                    'id': id,
+                    'title': news_please_obj.title,
+                    'text': news_please_obj.text,
+                    # 'maintext': news_please_obj.maintext,
+                    'description': news_please_obj.description,
+                })
 
     def build_url(self, path):
         url_parse = urlparse(self._url)
@@ -78,13 +89,13 @@ class TCCParser:
 
         return f'{base_url}{path}'
 
-    def run(self, html):
+    def run(self, id, html):
         page_references = dict()
 
         soup_obj = BS(html, self.parser)
         page_references[self._url] = self._wikipedia_table_parser(soup_obj)
 
-        self.save_pages(page_references)
+        self.save_pages(id, page_references)
 
         # This parser doesn't want to read more urls inside this website
         return set()

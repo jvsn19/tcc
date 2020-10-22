@@ -4,21 +4,8 @@ class CSVReader:
     @staticmethod
     def get_urls_from_csv(csv_path, limit: int = -1):
         '''
-        Function that reads a CSV file with urls. The CSV should follow the pattern:
-        file.csv:
-            <title> # This line will be ignored
-            <url_1>
-            ...
-            <url_n>
-
-        Arguments:
-        path: URL to be donwloaded
-
-        Optional arguments:
-        limit: limit of the number of lines returned, default infinite
-
-        Return:
-        A set of URL. The set approach is to avoid repeated urls.
+        Function that reads a CSV file with urls.
+        The csv should have at leas two columns: 'table_id' and 'table_url'
         '''
         output = set()
 

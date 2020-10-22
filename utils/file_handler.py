@@ -9,11 +9,8 @@ class FileHandler:
             if not os.path.exists(path):
                 self.create_dir(path)
 
-            with open(f'{path}/{name}.csv', 'w+') as csv_file:
-                csv_file.writelines("references\n")
-
-                for line in content:
-                    csv_file.writelines(f'{line}\n')
+            with open(f'{path}/{name}.csv', 'a') as csv_file:
+                csv_file.writelines(content + '\n')
 
 
     instance = None
