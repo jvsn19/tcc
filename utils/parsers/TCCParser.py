@@ -79,7 +79,7 @@ class TCCParser:
                     'id': id,
                     'title': news_please_obj.title,
                     'text': news_please_obj.text,
-                    # 'maintext': news_please_obj.maintext,
+                    'maintext': news_please_obj.maintext,
                     'description': news_please_obj.description,
                 })
 

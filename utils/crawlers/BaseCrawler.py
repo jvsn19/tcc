@@ -25,7 +25,7 @@ class BaseCrawler(ABC):
         self.root_path = root_path
         self.useragent = useragent
         self.urls = set()
-        self.sleep_time = 5
+        self.sleep_time = 2
         self.parser = parser
         self._configure_robots_parser()
         self.redis = RedisClient()
