@@ -111,7 +111,7 @@ class BaseCrawler(ABC):
                 fixed_url = self._fix_url(url)
 
                 # Try again with new url
-                if fixed_url != url:
+                if self.redis.get(fixed_url) is None:
                     Logger.log_info(f'Trying again {url} -> {fixed_url}')
                     self.add_urls(set(fixed_url))
 

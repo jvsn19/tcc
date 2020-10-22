@@ -32,17 +32,19 @@ def consume(kafka_topic: str) -> None:
             id = row.get('id')
             url = row.get('url')
             title = row.get('title')
-            text = row.get('text')
-            description = row.get('description')
-            maintext = row.get('maintext')
-            if maintext:
-                maintext = maintext.replace('\n', '')
-                maintext = maintext.replace('\r', '')
-                maintext = maintext.replace(',', '')
+            full_text = row.get('full_text')
+            meta_description = row.get('meta_description')
+            summary = row.get('summary')
+            keywords = row.get('keywords')
+            meta_keywords = row.get('meta_keywords')
+            tags = row.get('tags')
+
+            print(url, title, tags)
+
             FileHandler.write_tables_csv(
                 'table_links',
                 'csvs/',
-                f'{id}, {url}, {title}, {text}, {description}, {maintext}')
+                f'{id}, {url}, {title}, {full_text}, {meta_description}, {summary}, {keywords}, {meta_keywords}, {tags}')
 
     except KeyboardInterrupt as e:
         stop_consumer(consumer)
