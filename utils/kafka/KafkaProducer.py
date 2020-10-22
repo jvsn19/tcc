@@ -14,10 +14,14 @@ class Singleton(type):
 class KafkaProducer(metaclass = Singleton):
     _kafka_producer = None
 
-    def __init__(self, bootstrap_servers = ['localhost:9092']):
+    def __init__(
+        self,
+        bootstrap_servers = ['localhost:9092'],
+        value_serializer = lambda val: dumps(val).encode('utf-8')
+        ):
         self.__class__.kafka_producer = KP(
             bootstrap_servers=bootstrap_servers,
-            value_serializer=lambda val: dumps(val).encode('utf-8'))
+            value_serializer=value_serializer)
 
     @classmethod
     def send(cls, topic: str, value: dict):
