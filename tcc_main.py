@@ -1,4 +1,4 @@
-CSV_PATH = '/Users/jvsn/Documents/tcc/csv_folder/distinct_tables_allsignals.csv'
+CSV_PATH = 'csv_folder/distinct_tables_allsignals.csv'
 
 from utils.readers import CSVReader
 from utils.crawlers import WikipediaCrawler

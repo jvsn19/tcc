@@ -2,7 +2,7 @@ import re
 from urllib import request
 from urllib.parse import urlparse
 import string
-
+import time
 import nltk
 from newspaper import Article
 from bs4 import BeautifulSoup as BS
@@ -120,7 +120,6 @@ class TCCParser:
     def save_pages(self, id, page_references):
         # title, text, main text, description
         for url in page_references:
-            print(url)
             article = self.article_parse(url)
             KafkaProducer.send(
                 'quickstart-events',
@@ -135,6 +134,7 @@ class TCCParser:
                     'meta_keywords': article[5],
                     'tags': article[6]
                 })
+            time.sleep(5)
 
     def build_url(self, path):
         url_parse = urlparse(self._url)
